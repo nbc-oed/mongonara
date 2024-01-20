@@ -1,0 +1,13 @@
+{
+  "name": "node4th-mongonara-web",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/ooheunda/node4th-mongonara-web",
+  "author": "ooheunda <ooheunda@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^8.1.0"
+  }
+}
