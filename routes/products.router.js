@@ -14,15 +14,12 @@ router.post("/products", async (req, res) => {
       .json({ errorMessage: "필수 값이 입력되지 않았습니다." });
   }
 
-  const status = "FOR_SALE";
-  const createdAt = new Date();
   const newProduct = new Product({
     title,
     content,
     author,
     password,
-    status,
-    createdAt,
+    createdAt: new Date(),
   });
   await newProduct.save();
 
