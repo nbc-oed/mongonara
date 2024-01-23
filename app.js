@@ -10,6 +10,18 @@ connect();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use((req, res, next) => {
+  console.log(
+    "Request URL:",
+    req.originalUrl,
+    "| Method:",
+    req.method,
+    "| at:",
+    new Date()
+  );
+  next();
+});
+
 const router = express.Router();
 
 router.get("/", (req, res) => {
