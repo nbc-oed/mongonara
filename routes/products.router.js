@@ -38,7 +38,7 @@ router.get("/products", async (req, res) => {
 });
 
 // 상품 상세 조회 API
-router.get("/products/:productId", async (req, res) => {
+router.get("/products/:productId", async (req, res, next) => {
   try {
     const productId = req.params.productId;
     const { password, ...productDetail } = (
@@ -46,13 +46,13 @@ router.get("/products/:productId", async (req, res) => {
     )._doc;
 
     return res.status(200).json({ data: productDetail });
-  } catch {
-    return res.status(404).json({ message: "상품이 존재하지 않습니다." });
+  } catch (err) {
+    next(err);
   }
 });
 
 // 상품 정보 수정 API
-router.put("/products/:productId", async (req, res) => {
+router.put("/products/:productId", async (req, res, next) => {
   try {
     const productId = req.params.productId;
     const product = await Product.findOne({ _id: productId }).exec();
@@ -75,13 +75,13 @@ router.put("/products/:productId", async (req, res) => {
     return res
       .status(200)
       .json({ message: "상품이 다음과 같이 수정되었습니다.", data: product });
-  } catch {
-    return res.status(404).json({ message: "상품이 존재하지 않습니다." });
+  } catch (err) {
+    next(err);
   }
 });
 
 // 상품 삭제 API
-router.delete("/products/:productId", async (req, res) => {
+router.delete("/products/:productId", async (req, res, next) => {
   try {
     const productId = req.params.productId;
     const product = await Product.findOne({ _id: productId }).exec();
@@ -96,8 +96,8 @@ router.delete("/products/:productId", async (req, res) => {
     return res
       .status(200)
       .json({ message: `${product.title} 상품이 삭제되었습니다.` });
-  } catch {
-    return res.status(404).json({ message: "상품이 존재하지 않습니다." });
+  } catch (err) {
+    next(err);
   }
 });
 

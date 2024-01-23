@@ -1,6 +1,7 @@
 import express from "express";
 import connect from "./schemas/index.js";
 import loggerMiddleware from "./middlewares/logger.middleware.js";
+import errorHandlerMiddleware from "./middlewares/error-handler.middleware.js";
 import productsRouter from "./routes/products.router.js";
 
 const app = express();
@@ -19,6 +20,7 @@ router.get("/", (req, res) => {
 });
 
 app.use("/api", [router, productsRouter]);
+app.use(errorHandlerMiddleware);
 
 app.listen(PORT, () => {
   console.log(`port: ${PORT}`);
