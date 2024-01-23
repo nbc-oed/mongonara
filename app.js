@@ -1,5 +1,6 @@
 import express from "express";
 import connect from "./schemas/index.js";
+import loggerMiddleware from "./middlewares/logger.middleware.js";
 import productsRouter from "./routes/products.router.js";
 
 const app = express();
@@ -9,18 +10,7 @@ connect();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.use((req, res, next) => {
-  console.log(
-    "Request URL:",
-    req.originalUrl,
-    "| Method:",
-    req.method,
-    "| at:",
-    new Date()
-  );
-  next();
-});
+app.use(loggerMiddleware);
 
 const router = express.Router();
 
