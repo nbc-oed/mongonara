@@ -5,7 +5,7 @@ export default function (req, res, next) {
     "| Method:",
     req.method,
     "| at:",
-    new Date()
+    new Date().toISOString()
   );
   next();
 }

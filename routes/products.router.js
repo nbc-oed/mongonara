@@ -13,7 +13,7 @@ router.post("/products", async (req, res) => {
       price,
       author,
       password,
-      createdAt: new Date(),
+      createdAt: new Date().toISOString(),
     });
     await newProduct.save();
 
@@ -27,12 +27,10 @@ router.post("/products", async (req, res) => {
 
 // 상품 목록 조회 API
 router.get("/products", async (req, res) => {
-  const allProducts = (await Product.find().sort("-createdAt").exec()).map(
-    (product) => {
-      const { _id, title, price, author, status, createdAt } = product;
-      return { _id, title, price, author, status, createdAt };
-    }
-  );
+  const allProducts = await Product.find()
+    .select("title price author createdAt")
+    .sort("-createdAt")
+    .exec();
 
   return res.status(200).json({ data: allProducts });
 });
@@ -63,7 +61,7 @@ router.put("/products/:productId", async (req, res, next) => {
     }
 
     if (password !== product.password) {
-      return res.status(404).json({ message: "올바른 비밀번호가 아닙니다." });
+      return res.status(401).json({ message: "올바른 비밀번호가 아닙니다." });
     }
 
     if (title) product.title = title;
@@ -88,7 +86,7 @@ router.delete("/products/:productId", async (req, res, next) => {
     const { password } = req.body;
 
     if (password !== product.password) {
-      return res.status(404).json({ message: "올바른 비밀번호가 아닙니다." });
+      return res.status(401).json({ message: "올바른 비밀번호가 아닙니다." });
     }
 
     await Product.deleteOne({ _id: productId }).exec();
